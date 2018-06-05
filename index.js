@@ -17,7 +17,7 @@ module.exports = function(content) {
 	if (query[0] == "fill") {
 		var color = rgbToHex.apply(this, query[1].split("|"));
 		
-		new SVGO(svgoConfig = {
+		new SVGO({
 			plugins: [
 				{
 					"ReFillColors": {
