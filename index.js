@@ -50,9 +50,14 @@ module.exports = function(content) {
 					}
 				}
 			]
-		}).optimize(content.toString(), function(result) {
-			callback(null, "module.exports = " + JSON.stringify("data:image/svg+xml;base64," + new Buffer(result.data).toString("base64")));
+		}).optimize(content.toString()).then(function(result) {
+			callback(null, "module.exports = " + JSON.stringify("data:image/svg+xml;base64," + Buffer.from(result.data).toString("base64")));
+		}, function(reason){
+			callback(reason);
 		});
+	}
+	else {
+		callback(new Error("No fill parameter provided for SVG: " + this.resourcePath));
 	}
 }
 module.exports.raw = true;
