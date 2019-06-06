@@ -5,8 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "loader-utils": "0.2.x",
-    "mime": "1.2.x",
-    "svgo": "1.0.5"
+    "svgo": "^1.0"
   },
   "peerDependencies": {
     "file-loader": "*"
