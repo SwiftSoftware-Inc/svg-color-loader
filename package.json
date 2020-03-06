@@ -4,11 +4,7 @@
   "description": "Recolors svg icons as part of webpack build",
   "main": "index.js",
   "dependencies": {
-    "loader-utils": "0.2.x",
     "svgo": "^1.0"
-  },
-  "peerDependencies": {
-    "file-loader": "*"
   },
   "author": "HighGear",
   "license": "ISC"
