@@ -1,12 +1,3 @@
-function toHex(value) {
-	var hex = parseInt(value).toString(16);
-	return hex.length === 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-	return "#" + toHex(r) + toHex(g) + toHex(b);
-}
-
 function parseQueryString(queryString) {
 	var parts = queryString
 		.substring(1) //remove leading ?
@@ -21,6 +12,5 @@ function parseQueryString(queryString) {
 }
 
 module.exports = {
-    rgbToHex,
     parseQueryString,
 }

@@ -1,5 +1,6 @@
 var SVGO = require("svgo");
-var { rgbToHex, parseQueryString } = require('./util')
+var chroma = require("chroma-js");
+var { parseQueryString } = require('./util')
 
 module.exports = async function(content) {
 	this.cacheable && this.cacheable()
@@ -13,7 +14,7 @@ module.exports = async function(content) {
 		return 
 	}
 	
-	var fillColor = rgbToHex(...params.fill.split("|"))
+	var fillColor = chroma(params.fill.split("|"));
 	
 	var svgoWithPlugins = new SVGO({
 		plugins: [
@@ -21,8 +22,25 @@ module.exports = async function(content) {
 				"ReFillColors": {
 					type: "perItem",
 					fn: function(item) {
-						if (item.isElem(["circle", "ellipse", "line", "path", "polygon", "polyline", "rect"]))
-							item.addAttr({ name: "fill", value: fillColor, prefix: "", local: "fill" });
+						if (item.isElem(["circle", "ellipse", "line", "path", "polygon", "polyline", "rect"])) {
+							var currValue = item.attr("fill");
+
+							var computed = fillColor;
+
+							if (!!currValue) {
+								var currColor = chroma(currValue.value);
+
+								// Take the hue and saturation values from the requested color and then calculate the correct lightness.
+								// To do that, we need to invert the lightness value (which is 0.0 - 1.0) so that has the correct multiplicative properties:
+								//   - we want black -> color requested (identity property)
+								//   - we want white -> white (zero multiplication property)
+								// However, this requires inverting the scale because it's normally black = 0, white = 1 and we want black = 1, white = 0.
+								// Since we've inverted the scale, we have to undo that again as the final step as well.
+								computed = chroma.hsl(fillColor.hsl()[0], fillColor.hsl()[1], 1 - (fillColor.hsl()[2] * (1 - currColor.hsl()[2])));
+							}
+
+							item.addAttr({ name: "fill", value: computed.hex(), prefix: "", local: "fill" });
+						}
 					}
 				}
 			},

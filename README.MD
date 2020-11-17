@@ -1,5 +1,5 @@
 # svg-color-loader
-`svg-color-loader` is a webpack plugin for coloring flat svg icons at build time.
+`svg-color-loader` is a webpack plugin for coloring grayscale svg icons at build time.
 
 
 
@@ -7,7 +7,7 @@
 
 We built this tool because we wanted to use [Sass](https://sass-lang.com/) color variables for svg icons. Additionally, we wanted to use the same icon with varying colors without modifying or duplicating the svg images.
 
-
+When the tool processes an svg, it coverts black elements to your specified color, grey elements to an appropriate shade of your color and leaves white elements alone.
 
 ## Usage
 
