@@ -4,7 +4,7 @@
   "description": "Recolors svg icons as part of webpack build",
   "main": "index.js",
   "dependencies": {
-    "chroma-js": "^2.1.0",
+    "chroma-js": "^2.1.1",
     "svgo": "^1.3.2"
   },
   "author": "HighGear",
